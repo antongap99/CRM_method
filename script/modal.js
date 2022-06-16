@@ -1,9 +1,5 @@
 'use strict';
 
-
-
-// import { goods } from "./goods";
-
 const goods = [
     {
       "id": 1,
@@ -63,6 +59,7 @@ const goods = [
     }
   ]
 
+
 const creatElem = (tag, attr) => { 
     const elem = document.createElement(tag);
     return Object.assign(elem, {...attr})
@@ -75,79 +72,33 @@ const tBody = document.querySelector('.table__body');
 overlay.classList.toggle('active');
 
 
+
 const createRow = (obj) => {
 
     const tr = creatElem('tr');
-    for(let i = 0; i < 8; i++) {
-        tr.append(creatElem('td'));
-    }
-
-    const spanElem = creatElem('span', {
-        className: 'table__cell-id',
-        textContent: 'id: ' + obj["id"],
-        'data-id': '0',
-    });
-
-
-    const tdTitle = document.createTextNode(obj["title"]);
-    const tdNumber =  tr.firstChild;
-    const tdId = tdNumber.nextElementSibling;
-    const tdCategories = tdId.nextElementSibling;
-    const tdUnits = tdCategories.nextElementSibling;
-    const tdCount = tdUnits.nextElementSibling;
-    const tdPrice = tdCount.nextElementSibling;
-    const tdPriceAll = tdPrice.nextElementSibling;
-    const tdBtn = tdPriceAll.nextElementSibling;
-   
-    for(let i = 0; i < 3; i++) {
-        tdBtn.append(creatElem('button'));
-    }
-
-    const tdBtnImg = tdBtn.firstChild;
-    const tdBtnEdit = tdBtnImg.nextElementSibling; 
-    const tdBtnDel = tdBtnEdit.nextElementSibling;
-
-
     
-    tdId.append(spanElem, tdTitle);
-    tdId.setAttribute('data-id' , '0');  
-
-    for(let elem of tr.childNodes) {
-        elem.classList = 'table__cell';
-    }
-
-    tdId.classList += ' table__cell_left table__cell_name';
-    tdCategories.classList += ' table__cell_left';
-    tdBtn.classList +=' table__cell_btn-wrapper'; 
-
-    for(let elem of tdBtn.childNodes){
-        elem.classList = 'table__btn';
-    }
-
-    tdBtnImg.classList += ' table__btn_pic'
-    tdBtnEdit.classList += ' table__btn_edit'
-    tdBtnDel.classList += ' table__btn_del'
-
-
-    tdNumber.textContent = tBody.children.length + 1;
-    tdCategories.textContent = obj["category"];
-    tdUnits.textContent = obj["units"];
-    tdCount.textContent = obj["count"];
-    tdPrice.textContent ='$' + obj["price"];
-    tdPriceAll.textContent ='$' + obj["price"] * tdCount.textContent;
-
-
-
-    return  tr;
+    tBody.insertAdjacentHTML("beforeend", `<tr>
+    <td class="table__cell ">${tBody.children.length + 1}</td>
+    <td class="table__cell table__cell_left table__cell_name" data-id="${obj["id"]}">
+      <span class="table__cell-id">id: ${obj["id"]}</span>${obj["title"]}</td>
+    <td class="table__cell table__cell_left">${obj["category"]}</td>
+    <td class="table__cell">${obj["units"]}</td>
+    <td class="table__cell">${obj["count"]}</td>
+    <td class="table__cell">${obj["price"]}</td>
+    <td class="table__cell">$${obj["price"] * obj["count"]}</td>
+    <td class="table__cell table__cell_btn-wrapper">
+      <button class="table__btn table__btn_pic"></button>
+      <button class="table__btn table__btn_edit"></button>
+      <button class="table__btn table__btn_del"></button>
+    </td>
+  </tr>`)
 }
 
 
+const renderGoods = (arr) => {
+    arr.forEach(element => {
+        createRow(element);
+    });
+}
 
-    const renderGoods = (arr) => {
-        arr.forEach(element => {
-            const elem = createRow(element);
-            tBody.append(elem);
-        });
-    }
-
-    renderGoods(goods);
+renderGoods(goods);
