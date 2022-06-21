@@ -13,6 +13,7 @@
 
 .overlay.active {
   display: flex;
+  cursor: pointer;
 }
 
 .overlay__modal {

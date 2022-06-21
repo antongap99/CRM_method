@@ -102,3 +102,17 @@ const renderGoods = (arr) => {
 }
 
 renderGoods(goods);
+
+
+const addGoodsBtn = document.querySelector('.panel__add-goods');
+
+addGoodsBtn.addEventListener('click', () => {
+  overlay.classList.toggle('active');
+});
+
+overlay.addEventListener('click', (e) => {
+  const target = e.target;
+  if(target === overlay || target.closest('.modal__close')) {
+    overlay.classList.toggle('active');
+  }
+});
