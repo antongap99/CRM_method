@@ -2,6 +2,35 @@
 
 const goods = [
     {
+      "id": 24601654816512,
+      "title": "Навигационная система Soundmax",
+      "price": 100,
+      "description": "Навигационная система Soundmax",
+      "category": "Техника для дома	",
+      "discont": false,
+      "count": 5,
+      "units": "шт",
+      "images": {
+        "small": "img/smrtxiaomi11t-m.jpg",
+        "big": "img/smrtxiaomi11t-b.jpg"
+      }
+    },
+    {
+      "id": 24601654816513,
+      "title": "Телевизор DEXP",
+      "price": 1000,
+      "description": "Телевизор DEXP",
+      "category": "Техника для дома	",
+      "discont": false,
+      "count": 15,
+      "units": "шт",
+      "images": {
+        "small": "img/smrtxiaomi11t-m.jpg",
+        "big": "img/smrtxiaomi11t-b.jpg"
+      }
+    },
+    
+    {
       "id": 1,
       "title": "Смартфон Xiaomi 11T 8/128GB",
       "price": 27000,
@@ -13,7 +42,7 @@ const goods = [
       "images": {
         "small": "img/smrtxiaomi11t-m.jpg",
         "big": "img/smrtxiaomi11t-b.jpg"
-      }
+      },
     },
     {
       "id": 2,
@@ -74,9 +103,6 @@ overlay.classList.toggle('active');
 
 
 const createRow = (obj) => {
-
-    const tr = creatElem('tr');
-    
     tBody.insertAdjacentHTML("beforeend", `<tr>
     <td class="table__cell ">${tBody.children.length + 1}</td>
     <td class="table__cell table__cell_left table__cell_name" data-id="${obj["id"]}">
@@ -115,4 +141,29 @@ overlay.addEventListener('click', (e) => {
   if(target === overlay || target.closest('.modal__close')) {
     overlay.classList.toggle('active');
   }
+
 });
+
+
+
+
+const delBtn = document.querySelector('.table__btn_del');
+const trs = tBody.querySelectorAll('tr');
+trs.forEach(tr => {tr.classList = 'table__line'} );
+
+
+tBody.addEventListener('click', (e) => {
+  const target = e.target;
+  if(target.closest('.table__btn_del')) {
+    e.target.closest('.table__line').remove();
+
+    for(let i = 0; i < goods.length; i++){
+      const id =  +e.target.closest('.table__line').children[1].dataset.id;
+      if(goods[i].id === id){
+        goods.splice(goods[i], 1);
+        console.log('goods: ', goods);
+      }
+    }  
+  };
+})
+
