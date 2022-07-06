@@ -29,7 +29,7 @@ const goods = [
         "big": "img/smrtxiaomi11t-b.jpg"
       }
     },
-    
+
     {
       "id": 1,
       "title": "Смартфон Xiaomi 11T 8/128GB",
@@ -89,7 +89,7 @@ const goods = [
   ]
 
 
-const creatElem = (tag, attr) => { 
+const creatElem = (tag, attr) => {
     const elem = document.createElement(tag);
     return Object.assign(elem, {...attr})
 }
@@ -163,7 +163,18 @@ tBody.addEventListener('click', (e) => {
         goods.splice(goods[i], 1);
         console.log('goods: ', goods);
       }
-    }  
+    }
   };
 })
 
+const form = document.querySelector('.modal__form');
+console.log('form: ', form);
+
+form.discount.addEventListener('click', () => {
+  if(form.discount_count.hasAttribute('disabled')){
+    form.discount_count.removeAttribute('disabled');
+  } else {
+    form.discount_count.setAttribute('disabled',  'disabled');
+  };
+  console.log('form.discount_count.attr: ', form.discount_count );
+})
