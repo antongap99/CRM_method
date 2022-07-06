@@ -3,7 +3,7 @@
 const goods = [
     {
       "id": 24601654816512,
-      "title": "Навигационная система Soundmax",
+      "name": "Навигационная система Soundmax",
       "price": 100,
       "description": "Навигационная система Soundmax",
       "category": "Техника для дома	",
@@ -17,7 +17,7 @@ const goods = [
     },
     {
       "id": 24601654816513,
-      "title": "Телевизор DEXP",
+      "name": "Телевизор DEXP",
       "price": 1000,
       "description": "Телевизор DEXP",
       "category": "Техника для дома	",
@@ -32,7 +32,7 @@ const goods = [
 
     {
       "id": 1,
-      "title": "Смартфон Xiaomi 11T 8/128GB",
+      "name": "Смартфон Xiaomi 11T 8/128GB",
       "price": 27000,
       "description": "Смартфон Xiaomi 11T – это представитель флагманской линейки, выпущенной во второй половине 2021 года. И он полностью соответствует такому позиционированию, предоставляя своим обладателям возможность пользоваться отличными камерами, ни в чем себя не ограничивать при запуске игр и других требовательных приложений.",
       "category": "mobile-phone",
@@ -46,7 +46,7 @@ const goods = [
     },
     {
       "id": 2,
-      "title": "Радиоуправляемый автомобиль Cheetan",
+      "name": "Радиоуправляемый автомобиль Cheetan",
       "price": 4000,
       "description": "Внедорожник на дистанционном управлении. Скорость 25км/ч. Возраст 7 - 14 лет",
       "category": "toys",
@@ -60,7 +60,7 @@ const goods = [
     },
     {
       "id": 3,
-      "title": "ТВ приставка MECOOL KI",
+      "name": "ТВ приставка MECOOL KI",
       "price": 12400,
       "description": "Всего лишь один шаг сделает ваш телевизор умным, Быстрый и умный MECOOL KI PRO, прекрасно спроектированный, сочетает в себе прочный процессор Cortex-A53 с чипом Amlogic S905D",
       "category": "tv-box",
@@ -74,7 +74,7 @@ const goods = [
     },
     {
       "id": 4,
-      "title": "Витая пара PROConnect 01-0043-3-25",
+      "name": "Витая пара PROConnect 01-0043-3-25",
       "price": 22,
       "description": "Витая пара Proconnect 01-0043-3-25 является сетевым кабелем с 4 парами проводов типа UTP, в качестве проводника в которых используется алюминий, плакированный медью CCA. Такая неэкранированная витая пара с одножильными проводами диаметром 0.50 мм широко применяется в процессе сетевых монтажных работ. С ее помощью вы сможете обеспечить развертывание локальной сети в домашних условиях или на предприятии, объединить все необходимое вам оборудование в единую сеть.",
       "category": "cables",
@@ -94,7 +94,11 @@ const creatElem = (tag, attr) => {
     return Object.assign(elem, {...attr})
 }
 
-
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
+}
 
 const overlay = document.querySelector('.overlay');
 const tBody = document.querySelector('.table__body');
@@ -106,7 +110,7 @@ const createRow = (obj) => {
     tBody.insertAdjacentHTML("beforeend", `<tr>
     <td class="table__cell ">${tBody.children.length + 1}</td>
     <td class="table__cell table__cell_left table__cell_name" data-id="${obj["id"]}">
-      <span class="table__cell-id">id: ${obj["id"]}</span>${obj["title"]}</td>
+      <span class="table__cell-id">id: ${obj["id"]}</span>${obj["name"]}</td>
     <td class="table__cell table__cell_left">${obj["category"]}</td>
     <td class="table__cell">${obj["units"]}</td>
     <td class="table__cell">${obj["count"]}</td>
@@ -175,6 +179,24 @@ form.discount.addEventListener('click', () => {
     form.discount_count.removeAttribute('disabled');
   } else {
     form.discount_count.setAttribute('disabled',  'disabled');
+    form.discount_count.value = '';
   };
   console.log('form.discount_count.attr: ', form.discount_count );
+});
+
+
+const addGoods = (obj, tBody) => {
+  obj.id = getRandomIntInclusive(0 , 10000);
+  createRow(obj);
+}
+
+const submit = document.querySelector('.modal__submit');
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const formData = new FormData(e.target);
+  const newGoods = Object.fromEntries(formData);
+  newGoods.id = 0;
+  console.log('newGoods: ', newGoods);
+  addGoods( newGoods ,tBody);
+  form.reset();
 })
