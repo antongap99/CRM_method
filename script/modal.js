@@ -135,9 +135,16 @@ renderGoods(goods);
 
 
 const addGoodsBtn = document.querySelector('.panel__add-goods');
+const vendId = document.querySelector('.vendor-code__id');
+
+const creatGoodId = () => {
+  vendId.textContent = getRandomIntInclusive(0, 10000000);
+  return vendId;
+}
 
 addGoodsBtn.addEventListener('click', () => {
   overlay.classList.toggle('active');
+  creatGoodId();
 });
 
 overlay.addEventListener('click', (e) => {
@@ -152,9 +159,14 @@ overlay.addEventListener('click', (e) => {
 
 
 const delBtn = document.querySelector('.table__btn_del');
-const trs = tBody.querySelectorAll('tr');
-trs.forEach(tr => {tr.classList = 'table__line'} );
+const addtableLineClass = () => {
+  const trs = tBody.querySelectorAll('tr');
+  if(!(trs.classList == 'table__line')) {
+    trs.forEach(tr => {tr.classList = 'table__line'} );
+  }
+}
 
+addtableLineClass();
 
 tBody.addEventListener('click', (e) => {
   const target = e.target;
@@ -171,8 +183,18 @@ tBody.addEventListener('click', (e) => {
   };
 })
 
+const calcTotalPrice = () => {
+  const totalPrice = document.querySelector('.crm__total-price');
+  let total = 0;
+   for(let i = 0; i < tBody.children.length; i++) {
+      total += tBody.children[i].children[5].textContent * tBody.children[i].children[4].textContent  ;
+   }
+   totalPrice.textContent = `$ ${total}`;
+}
+calcTotalPrice();
+
 const form = document.querySelector('.modal__form');
-console.log('form: ', form);
+
 
 form.discount.addEventListener('click', () => {
   if(form.discount_count.hasAttribute('disabled')){
@@ -185,9 +207,10 @@ form.discount.addEventListener('click', () => {
 });
 
 
-const addGoods = (obj, tBody) => {
-  obj.id = getRandomIntInclusive(0 , 10000);
+const addGoods = (obj, goodId) => {
+  obj.id = goodId.textContent;
   createRow(obj);
+  addtableLineClass();
 }
 
 const submit = document.querySelector('.modal__submit');
@@ -197,6 +220,16 @@ form.addEventListener('submit', (e) => {
   const newGoods = Object.fromEntries(formData);
   newGoods.id = 0;
   console.log('newGoods: ', newGoods);
-  addGoods( newGoods ,tBody);
+  addGoods( newGoods , vendId);
   form.reset();
+  form.total.value = 0;
+  calcTotalPrice();
 })
+
+const culcModalTotalPrice = () => {
+  form.total.value = form.count.value * form.price.value;
+}
+culcModalTotalPrice();
+
+form.count.addEventListener('change', culcModalTotalPrice);
+form.price.addEventListener('change', culcModalTotalPrice);
