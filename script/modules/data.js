@@ -22,10 +22,7 @@ const goods = [
       "discont": false,
       "count": 15,
       "units": "шт",
-      "images": {
-        "small": "img/smrtxiaomi11t-m.jpg",
-        "big": "img/smrtxiaomi11t-b.jpg"
-      }
+      "images": {"small": "img/smrtxiaomi11t-m.jpg", "big": "img/smrtxiaomi11t-b.jpg"}
     },
 
     {
@@ -37,10 +34,7 @@ const goods = [
       "discont": false,
       "count": 3,
       "units": "шт",
-      "images": {
-        "small": "img/smrtxiaomi11t-m.jpg",
-        "big": "img/smrtxiaomi11t-b.jpg"
-      },
+      "images": {"small": "img/smrtxiaomi11t-m.jpg", "big": "img/smrtxiaomi11t-b.jpg"},
     },
     {
       "id": 2,
@@ -51,10 +45,7 @@ const goods = [
       "discont": 5,
       "count": 1,
       "units": "шт",
-      "images": {
-        "small": "img/cheetancar-m.jpg",
-        "big": "img/cheetancar-b.jpg"
-      }
+      "images": {"small": "img/cheetancar-m.jpg", "big": "img/cheetancar-b.jpg"}
     },
     {
       "id": 3,
@@ -65,10 +56,7 @@ const goods = [
       "discont": 15,
       "count": 4,
       "units": "шт",
-      "images": {
-        "small": "img/tvboxmecool-m.jpg",
-        "big": "img/tvboxmecool-b.jpg"
-      }
+      "images": {"small": "img/tvboxmecool-m.jpg", "big": "img/tvboxmecool-b.jpg"}
     },
     {
       "id": 4,
@@ -79,10 +67,7 @@ const goods = [
       "discont": false,
       "count": 420,
       "units": "шт",
-      "images": {
-        "small": "img/lan_proconnect43-3-25.jpg",
-        "big": "img/lan_proconnect43-3-25-b.jpg"
-      }
+      "images": {"small": "img/lan_proconnect43-3-25.jpg", "big": "img/lan_proconnect43-3-25-b.jpg"}
     }
   ];
 

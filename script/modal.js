@@ -7,6 +7,8 @@ import create from "./modules/create.js";
 const { creatGoodId, addtableLineClass,} = create;
 import render from "./modules/render.js";
 const {renderGoods, addGoods,} = render;
+import storage from "./modules/serviceStorge.js";
+const  {setStorage, removeStorage, getStorage,} = storage;
 
 
 const init = () => {
@@ -22,6 +24,8 @@ const init = () => {
     const target = e.target;
     if(target.closest('.table__btn_del')) {
       e.target.closest('.table__line').remove();
+      const delItemId = e.target.closest('.table__line').children[1].dataset.id;
+      removeStorage(delItemId);
 
       for(let i = 0; i < goods.length; i++){
         const id =  +e.target.closest('.table__line').children[1].dataset.id;
@@ -63,6 +67,7 @@ const init = () => {
     const newGoods = Object.fromEntries(formData);
     newGoods.id = 0;
     addGoods( newGoods , vendId, tBody);
+    setStorage('data', newGoods);
     form.reset();
     form.total.value = 0;
     calcTotalPrice(tBody);
@@ -72,7 +77,7 @@ const init = () => {
   form.price.addEventListener('change', culcModalTotalPrice);
 
 
-  renderGoods(goods,  tBody);
+  renderGoods(getStorage('data'),  tBody);
   calcTotalPrice(tBody);
   addtableLineClass(tBody);
 
