@@ -88,7 +88,6 @@ const goods = [
     }
   ]
 
-
 const creatElem = (tag, attr) => {
     const elem = document.createElement(tag);
     return Object.assign(elem, {...attr})
@@ -100,13 +99,7 @@ function getRandomIntInclusive(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
 }
 
-const overlay = document.querySelector('.overlay');
-const tBody = document.querySelector('.table__body');
-overlay.classList.toggle('active');
-
-
-
-const createRow = (obj) => {
+const createRow = (obj, tBody) => {
     tBody.insertAdjacentHTML("beforeend", `<tr>
     <td class="table__cell ">${tBody.children.length + 1}</td>
     <td class="table__cell table__cell_left table__cell_name" data-id="${obj["id"]}">
@@ -124,66 +117,27 @@ const createRow = (obj) => {
   </tr>`)
 }
 
-
-const renderGoods = (arr) => {
+const renderGoods = (arr, tBody) => {
     arr.forEach(element => {
-        createRow(element);
+        createRow(element, tBody);
     });
 }
 
-renderGoods(goods);
-
-
-const addGoodsBtn = document.querySelector('.panel__add-goods');
-const vendId = document.querySelector('.vendor-code__id');
-
-const creatGoodId = () => {
+const creatGoodId = (vendId) => {
   vendId.textContent = getRandomIntInclusive(0, 10000000);
   return vendId;
 }
-
-addGoodsBtn.addEventListener('click', () => {
-  overlay.classList.toggle('active');
-  creatGoodId();
-});
-
-overlay.addEventListener('click', (e) => {
-  const target = e.target;
-  if(target === overlay || target.closest('.modal__close')) {
-    overlay.classList.toggle('active');
-  }
-
-});
-
-
-
-
-const delBtn = document.querySelector('.table__btn_del');
-const addtableLineClass = () => {
+const addtableLineClass = (tBody) => {
   const trs = tBody.querySelectorAll('tr');
   if(!(trs.classList == 'table__line')) {
     trs.forEach(tr => {tr.classList = 'table__line'} );
   }
 }
 
-addtableLineClass();
 
-tBody.addEventListener('click', (e) => {
-  const target = e.target;
-  if(target.closest('.table__btn_del')) {
-    e.target.closest('.table__line').remove();
 
-    for(let i = 0; i < goods.length; i++){
-      const id =  +e.target.closest('.table__line').children[1].dataset.id;
-      if(goods[i].id === id){
-        goods.splice(goods[i], 1);
-        console.log('goods: ', goods);
-      }
-    }
-  };
-})
+const calcTotalPrice = (tBody) => {
 
-const calcTotalPrice = () => {
   const totalPrice = document.querySelector('.crm__total-price');
   let total = 0;
    for(let i = 0; i < tBody.children.length; i++) {
@@ -191,21 +145,6 @@ const calcTotalPrice = () => {
    }
    totalPrice.textContent = `$ ${total}`;
 }
-calcTotalPrice();
-
-const form = document.querySelector('.modal__form');
-
-
-form.discount.addEventListener('click', () => {
-  if(form.discount_count.hasAttribute('disabled')){
-    form.discount_count.removeAttribute('disabled');
-  } else {
-    form.discount_count.setAttribute('disabled',  'disabled');
-    form.discount_count.value = '';
-  };
-  console.log('form.discount_count.attr: ', form.discount_count );
-});
-
 
 const addGoods = (obj, goodId) => {
   obj.id = goodId.textContent;
@@ -213,24 +152,80 @@ const addGoods = (obj, goodId) => {
   addtableLineClass();
 }
 
-form.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const formData = new FormData(e.target);
-  const newGoods = Object.fromEntries(formData);
-  newGoods.id = 0;
-  console.log('newGoods: ', newGoods);
-  addGoods( newGoods , vendId);
-  form.reset();
-  form.total.value = 0;
-  calcTotalPrice();
-})
-
-const culcModalTotalPrice = () => {
+const culcModalTotalPrice = (form) => {
   form.total.value = form.count.value * form.price.value;
 }
-culcModalTotalPrice();
-
-form.count.addEventListener('change', culcModalTotalPrice);
-form.price.addEventListener('change', culcModalTotalPrice);
 
 
+
+const init = () => {
+  const tBody = document.querySelector('.table__body');
+  const vendId = document.querySelector('.vendor-code__id');
+  const form = document.querySelector('.modal__form');
+  const addGoodsBtn = document.querySelector('.panel__add-goods');
+  const overlay = document.querySelector('.overlay');
+  overlay.classList.toggle('active');
+
+
+  tBody.addEventListener('click', (e) => {
+    const target = e.target;
+    if(target.closest('.table__btn_del')) {
+      e.target.closest('.table__line').remove();
+
+      for(let i = 0; i < goods.length; i++){
+        const id =  +e.target.closest('.table__line').children[1].dataset.id;
+        if(goods[i].id === id){
+          goods.splice(goods[i], 1);
+
+        }
+      }
+    };
+  })
+
+
+
+  addGoodsBtn.addEventListener('click', () => {
+    overlay.classList.toggle('active');
+    creatGoodId(vendId);
+  });
+
+  overlay.addEventListener('click', (e) => {
+    const target = e.target;
+    if(target === overlay || target.closest('.modal__close')) {
+      overlay.classList.toggle('active');
+    }
+
+  });
+
+  form.discount.addEventListener('click', () => {
+    if(form.discount_count.hasAttribute('disabled')){
+      form.discount_count.removeAttribute('disabled');
+    } else {
+      form.discount_count.setAttribute('disabled',  'disabled');
+      form.discount_count.value = '';
+    };
+    console.log('form.discount_count.attr: ', form.discount_count );
+  });
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const newGoods = Object.fromEntries(formData);
+    newGoods.id = 0;
+    console.log('newGoods: ', newGoods);
+    addGoods( newGoods , vendId);
+    form.reset();
+    form.total.value = 0;
+    calcTotalPrice();
+  })
+  form.count.addEventListener('change', culcModalTotalPrice);
+  form.price.addEventListener('change', culcModalTotalPrice);
+
+
+  renderGoods(goods, tBody);
+  calcTotalPrice(tBody);
+  addtableLineClass(tBody);
+  culcModalTotalPrice(form);
+}
+
+init();
