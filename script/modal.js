@@ -213,7 +213,6 @@ const addGoods = (obj, goodId) => {
   addtableLineClass();
 }
 
-const submit = document.querySelector('.modal__submit');
 form.addEventListener('submit', (e) => {
   e.preventDefault();
   const formData = new FormData(e.target);
@@ -233,3 +232,5 @@ culcModalTotalPrice();
 
 form.count.addEventListener('change', culcModalTotalPrice);
 form.price.addEventListener('change', culcModalTotalPrice);
+
+
