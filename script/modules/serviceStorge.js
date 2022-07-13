@@ -14,7 +14,6 @@ const getStorage = (key) => {
     const data = getStorage(key);
     data.push(goodData);
     window.localStorage.removeItem('data');
-    console.log(data);
     window.localStorage.setItem('data', JSON.stringify(data));
   };
 
@@ -22,7 +21,7 @@ const getStorage = (key) => {
   const removeStorage = (goodDataId) => {
     const data = getStorage('data');
 
-    const newData = data.filter((elem) => goodDataId !== elem.id);
+    const newData = data.filter((elem) => +goodDataId !== +elem.id);
 
     window.localStorage.removeItem('data');
     window.localStorage.setItem('data', JSON.stringify(newData));

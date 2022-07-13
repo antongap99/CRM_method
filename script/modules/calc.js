@@ -15,7 +15,7 @@ const calcTotalPrice = (tBody) => {
   };
 
   const culcModalTotalPrice = (e) => {
-    e.target.closest('form').value = e.target.value * e.target.value;
+    e.target.closest('form').total.value = '$ ' + (e.target.closest('form').count.value * e.target.closest('form').price.value);
   };
 
   export default {
